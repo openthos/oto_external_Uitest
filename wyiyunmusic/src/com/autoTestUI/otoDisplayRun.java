@@ -31,7 +31,7 @@ public class otoDisplayRun {
 		System.out.println("---START BUILDING----");
 		System.out.println("**********************");
 		
-		logFile = "runlog.log";
+		logFile = ".";
 		// 1 创建 build.xml
 		execCmd("android create uitest-project -n " + projectName + " -t "
 				+ androidTargetId + " -p " + workspace_path);
@@ -67,16 +67,16 @@ public class otoDisplayRun {
 			String line = "";
 			while ((line = reader.readLine()) != null) {
 				if(line.indexOf("Time")>-1){
-					ToFile(cmd.substring(cmd.lastIndexOf("test"))+".runtime:"+Double.parseDouble(line.substring(6)),"apkresult",false);
+					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".runtime:"+Double.parseDouble(line.substring(6)),logFile+"/tmpResultToJson",false);
 					}
 				if(line.indexOf("OK (1 test)")>-1){
-					ToFile(cmd.substring(cmd.lastIndexOf("test"))+".result:"+1,"apkresult",false);
+					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".result:"+1,logFile+"/tmpResultToJson",false);
 				}
 				if(line.indexOf("FAILURES!!!")>-1){
-					ToFile(cmd.substring(cmd.lastIndexOf("test"))+".result:"+0,"apkresult",false);
+					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".result:"+0,logFile+"/tmpResultToJson",false);
 				}
 				System.out.println(line);
-                saveToFile(line, logFile, false);
+                saveToFile(line, logFile+"/testResult", false);
  			}
 			
 			//错误输出流,将标准错误转为标准输出（防止子进程运行阻塞）
@@ -86,7 +86,7 @@ public class otoDisplayRun {
 			String eline = null;
 			while ((eline = errorReader.readLine()) != null) {
 				System.out.println("<ERROR>" + eline);
-                saveToFile(eline, logFile, false);
+                saveToFile(eline, logFile+"/testResult", false);
 			}
 			ret = p.waitFor();
 			
@@ -97,8 +97,8 @@ public class otoDisplayRun {
 	}
 
 	// 将运行结果保存至文件中
-    public static void saveToFile(String text,String path,boolean isClose) {
-    	File file=new File(logFile);   
+    public static void saveToFile(String text,String savefile,boolean isClose) {
+    	File file=new File(savefile);   
 		BufferedWriter bf=null;
 		try {
 		    FileOutputStream outputStream=new FileOutputStream(file,true);
@@ -117,27 +117,7 @@ public class otoDisplayRun {
 			e.printStackTrace();
 		}
 	}
-    
-    public static void ToFile(String text,String path,boolean isClose) {
-    	File file=new File("apkresult");   
-		BufferedWriter bf=null;
-		try {
-		    FileOutputStream outputStream=new FileOutputStream(file,true);
-		    OutputStreamWriter outWriter=new OutputStreamWriter(outputStream);
-		    bf=new BufferedWriter(outWriter);
-			bf.append(text);
-			bf.newLine();
-			bf.flush();
-			
-			if(isClose){
-				bf.close();
-			}
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+
     
 	/**
 	 * 执行cmd命令，等待进程结束
