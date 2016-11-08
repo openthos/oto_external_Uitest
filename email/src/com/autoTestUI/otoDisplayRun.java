@@ -66,6 +66,9 @@ public class otoDisplayRun {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 			String line = "";
 			while ((line = reader.readLine()) != null) {
+				if(line.indexOf("APP launch")>-1){
+					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".launchtime:"+Integer.valueOf(line.substring(line.indexOf("间")+3,line.indexOf("ms"))),logFile+"/tmpResultToJson",false);
+				}
 				if(line.indexOf("Time")>-1){
 					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".runtime:"+Double.parseDouble(line.substring(6)),logFile+"/tmpResultToJson",false);
 					}
