@@ -66,17 +66,25 @@ public class otoDisplayRun {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 			String line = "";
 			while ((line = reader.readLine()) != null) {
+				if(line.indexOf("Start time")>-1){
+					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".starttime:"+line.substring(25),logFile+"/tmpResultToJson",false);
+				}
+				if(line.indexOf("结束时间")>-1){
+					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".endtime:"+line.substring(19),logFile+"/tmpResultToJson",false);
+				}
 				if(line.indexOf("APP launch")>-1){
-					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".launchtime:"+Integer.valueOf(line.substring(line.indexOf("间")+3,line.indexOf("ms"))),logFile+"/tmpResultToJson",false);
+					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".launchtime:"+line.substring(line.indexOf("间")+3,line.indexOf("ms")),logFile+"/tmpResultToJson",false);
 				}
 				if(line.indexOf("Time")>-1){
-					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".runtime:"+Double.parseDouble(line.substring(6)),logFile+"/tmpResultToJson",false);
+					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".runtime:"+line.substring(6),logFile+"/tmpResultToJson",false);
 					}
 				if(line.indexOf("OK (1 test)")>-1){
 					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".result:"+1,logFile+"/tmpResultToJson",false);
+					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".url:"+"testResult",logFile+"/tmpResultToJson",false);
 				}
 				if(line.indexOf("FAILURES!!!")>-1){
 					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".result:"+0,logFile+"/tmpResultToJson",false);
+					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".url:"+"testResult",logFile+"/tmpResultToJson",false);
 				}
 				System.out.println(line);
                 saveToFile(line,logFile+"/testResult", false);
