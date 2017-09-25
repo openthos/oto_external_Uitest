@@ -1,57 +1,59 @@
 package com.autoTestUI;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import android.os.RemoteException;
-
-import com.android.uiautomator.core.UiDevice;
-import com.android.uiautomator.core.UiObject;
 import com.android.uiautomator.core.UiObjectNotFoundException;
-import com.android.uiautomator.core.UiSelector;
 import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 
 public class wpsemail extends UiAutomatorTestCase {
+
+	public static String apppackage = "com.microsoft.office.word";
+	public static String appactivity = "com.microsoft.office.apphost.LaunchActivity";
+	public static String appName = "com.kingsoft.email/com.kingsoft.email.activity.setup.AccountSetupBasics";
+	public static String port = "5555";
+
 	public void testwpsemail() throws UiObjectNotFoundException, RemoteException,
 			IOException, InterruptedException {
-		UiDevice device = getUiDevice();
-		// wake up screen
-		device.wakeUp();
-		assertTrue("screen on :can't wakeup", device.isScreenOn());
-		otoDisplayRun.port = "5555";
-		otoDisplayRun.apppackage = "com.microsoft.office.word";
-		otoDisplayRun.appactivity = "com.microsoft.office.apphost.LaunchActivity";
-		
-		String appName = "com.kingsoft.email/com.kingsoft.email.activity.setup.AccountSetupBasics";
-		window_lib.windowtest(device, appName);
-		
-		Runtime.getRuntime().exec("am start -n "+appName);
-		Thread.sleep(2000);
-		
-		//input email username and passwd
-		UiObject eaddress = new UiObject(new UiSelector().resourceId("com.kingsoft.email:id/account_email"));
-		eaddress.click();
-		eaddress.setText("asptest@126.com");
-		sleep(500);
-		
-		UiObject passwd = new UiObject(new UiSelector().resourceId("com.kingsoft.email:id/account_password"));
-		passwd.click();
-		passwd.setText("abc123");
-		sleep(500);
-		
-		UiObject signbtn = new UiObject(new UiSelector().resourceId("com.kingsoft.email:id/next"));
-		signbtn.click();
-		Thread.sleep(4000);
+		otoDisplayRun otoTest;
+		otoTest = new otoDisplayRun(getUiDevice());
+		otoTest.mydevice.wakeUp();
+		otoTest.mydevice.pressEnter();
+		otoTest.mydevice.pressKeyCode(111);
+		assertTrue("screen on :can't wakeup", otoTest.mydevice.isScreenOn());
+		//启动时间
+		Date starttime;
+		Date endtime;
+		long launchTime;
+		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+
+		starttime = new Date();
+		System.out.println("----------Start time： " +  format.format(starttime));
+		System.out.println("starttime:" +  System.currentTimeMillis());
+		otoDisplayRun.execCmdNoSave("am start -n " + appName);
+
+		endtime = new Date();
+		System.out.println("----------结束时间： " +  format.format(endtime));
+		System.out.println("endtime:" +  System.currentTimeMillis());
+
+		launchTime = endtime.getTime() - starttime.getTime();
+		System.out.println("----------APP launch 时间： " + launchTime +"ms");
+		sleep(3000);
+
+		window_lib.windowtest(otoTest.mydevice,appName );
+
+		otoDisplayRun.execCmdNoSave("am start -n " + appName);
+		otoTest.SetTextById("com.kingsoft.email:id/account_email", "asptest@126.com");
+		otoTest.SetTextById("com.kingsoft.email:id/account_password", "abc123");
+		otoTest.ClickById("com.kingsoft.email:id/next");
+		otoTest.ClickById("android:id/mwMaximizeBtn");
+		sleep(1000);
+		otoTest.MoveToTop();
+		otoTest.ClickById("android:id/mwMaximizeBtn");
+		otoTest.ClickById("android:id/mwMinimizeBtn");
 		// 强制关闭程序
-				otoDisplayRun.execCmdNoSave("am force-stop " + appName.substring(0, appName.indexOf("/")));
+		otoDisplayRun.execCmdNoSave("am force-stop " + appName.substring(0, appName.indexOf("/")));
 
-
-		// start testing itself
-		/*
-		 * try { Runtime.getRuntime().exec( " am start -n " + appName);
-		 * 
-		 * } catch (IOException e) { // TODO auto-generated catch block
-		 * e.printStackTrace(); } sleep(500);
-		 */
 	}
-
-	
 }

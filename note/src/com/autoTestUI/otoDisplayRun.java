@@ -1,140 +1,89 @@
 package com.autoTestUI;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import com.android.uiautomator.core.UiDevice;
+import com.android.uiautomator.core.UiObject;
+import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.android.uiautomator.core.UiSelector;
+import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 
+public class otoDisplayRun extends UiAutomatorTestCase{
+	
+	UiDevice mydevice;
+	otoDisplayRun(UiDevice device){
+		mydevice = device;
+	}
 
-public class otoDisplayRun {
+	final int CLICK_ID = 1111;
+	final int CLICK_TEXT = 2222;
 	
-	private static String workspace_path;
-	public static String logFile;
-	public static String apppackage;
-	public static String appactivity;
-	public static String appName;
-	public static String port;
-	
-	public  otoDisplayRun() throws InterruptedException {
-		workspace_path = getWorkSpase();
-		System.out.println("----工作空间：\t\n" + workspace_path);
+	public boolean ClickById(String id){
+		return ClickByInfo(CLICK_ID,id);
 	}
 	
-	// 1 创建 build.xml
-	public void buildObjJarFile (String projectName, String androidTargetId) throws InterruptedException, IOException{
-		System.out.println("**********************");
-		System.out.println("---START BUILDING----");
-		System.out.println("**********************");
-		
-		logFile = ".";
-		// 1 创建 build.xml
-		execCmd("android create uitest-project -n " + projectName + " -t "
-				+ androidTargetId + " -p " + workspace_path);
-		
-		// 2 ant build 编译 生成projectName.jar 
-		execCmd("ant build");
-		
-		System.out.println("**********************");
-		System.out.println("---FINISH BUILDING----");
-		System.out.println("**********************");
+	public boolean ClickByText(String text){
+		return ClickByInfo(CLICK_TEXT,text);
 	}
 	
-	//获取工作环境目录
-	public String getWorkSpase() {
-		File directory = new File("");
-		String abPath = directory.getAbsolutePath();
-		return abPath;
+	public void MoveToTop() throws UiObjectNotFoundException{
+        UiObject objectSide4 = new UiObject( new UiSelector().resourceId("android:id/mwOuterBorder"));
+        android.graphics.Rect myAppSide4 = objectSide4.getVisibleBounds();
+        sleep(1000);
+        mydevice.click(100, myAppSide4.top);
 	}
 	
-	/**
-	 * 执行cmd命令，且输出信息到控制台
-	 * @throws InterruptedException 
-	 * @throws IOException
-	 */
-	public static int execCmd(String cmd) throws InterruptedException, IOException{
-		int ret = 0;
-		System.out.println("----execCmd:  " + cmd);
-		try {
-			Process p = Runtime.getRuntime().exec(cmd);
-			//正确输出流 输出到log 信息
-			InputStream input = p.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				if(line.indexOf("Start time")>-1){
-					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".starttime:"+line.substring(25),logFile+"/tmpResultToJson",false);
-				}
-				if(line.indexOf("结束时间")>-1){
-					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".endtime:"+line.substring(19),logFile+"/tmpResultToJson",false);
-				}
-				if(line.indexOf("APP launch")>-1){
-					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".launchtime:"+line.substring(line.indexOf("间")+3,line.indexOf("ms")),logFile+"/tmpResultToJson",false);
-				}
-				if(line.indexOf("Time")>-1){
-					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".runtime:"+line.substring(6),logFile+"/tmpResultToJson",false);
-					}
-				if(line.indexOf("OK (1 test)")>-1){
-					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".result:"+1,logFile+"/tmpResultToJson",false);
-					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".url:"+"testResult",logFile+"/tmpResultToJson",false);
-				}
-				if(line.indexOf("FAILURES!!!")>-1){
-					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".result:"+0,logFile+"/tmpResultToJson",false);
-					saveToFile(cmd.substring(cmd.lastIndexOf("test"))+".url:"+"testResult",logFile+"/tmpResultToJson",false);
-				}
-				System.out.println(line);
-                saveToFile(line,logFile+"/testResult", false);
- 			}
-			
-			//错误输出流,将标准错误转为标准输出（防止子进程运行阻塞）
-			InputStream errorInput = p.getErrorStream();
-			BufferedReader errorReader = new BufferedReader(new InputStreamReader(
-					errorInput));
-			String eline = null;
-			while ((eline = errorReader.readLine()) != null) {
-				System.out.println("<ERROR>" + eline);
-                saveToFile(eline,logFile+"/testResult", false);
+	private boolean ClickByInfo(int CLICK,String str){
+		UiSelector uiselector = null;
+		switch(CLICK)
+		{
+		case CLICK_ID:
+			uiselector = new UiSelector().resourceId(str);
+			break;
+		case CLICK_TEXT:	
+			uiselector = new UiSelector().text(str);
+			break;
+		default:
+			return false;
+		}
+		UiObject myobject = new UiObject(uiselector);
+		int i = 0;
+		while(!myobject.exists() && i < 5){
+//			SolveProblems();
+			sleep(1000);
+			if(i == 4){
+				TakeScreen(str.substring(str.indexOf('/')+1)+"----not find");
+				System.out.println("----------[failed]:" + str + " not find !!!测试未通过");
+				return false;
 			}
-			ret = p.waitFor();
-			
-		} catch (IOException e) {
+			i++;
+		}
+		try {
+			myobject.click();
+		} catch (UiObjectNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return ret;
+		return true;
 	}
 
-	// 将运行结果保存至文件中
-    public static void saveToFile(String text,String savefile,boolean isClose) {
-    	File file=new File(savefile);   
-		BufferedWriter bf=null;
-		try {
-		    FileOutputStream outputStream=new FileOutputStream(file,true);
-		    OutputStreamWriter outWriter=new OutputStreamWriter(outputStream);
-		    bf=new BufferedWriter(outWriter);
-			bf.append(text);
-			bf.newLine();
-			bf.flush();
-			
-			if(isClose){
-				bf.close();
-			}
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//	private void SolveProblems(){
+//
+//	}
+	
+	public void TakeScreen(String descript){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+		Date time = new Date();
+		String timestr = format.format(time);
+		File files = new File("/storage/sdcard0/Pictures/"+timestr+"_"+descript+".jpg");
+		mydevice.takeScreenshot(files);
 	}
-    
-
-    
-	/**
-	 * 执行cmd命令，等待进程结束
-	 * @throws InterruptedException 
-	 */
+	
 	public static int execCmdNoSave(String cmd) throws InterruptedException {
 		int ret = 0;
 		try {
@@ -145,35 +94,13 @@ public class otoDisplayRun {
 					errorInput));
 			String eline = null;
 			while ((eline = errorReader.readLine()) != null) {
-				System.out.println("<ERROR>" + eline);
+				System.out.println(eline);
 			}
-
 			ret = p.waitFor();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		return ret;
 	}
-    
-	// 3---push jar
-	public int pushTestJar(String jarName, String objJarPath) throws InterruptedException, IOException {
-		String jarFile = workspace_path + "/" + objJarPath + jarName;
-		String targetPath = "/data/local/tmp/";
-	    String pushCmd = "adb -s " +env.targetIp + ":" + port +" push " + jarFile + " " + targetPath;
-		//String pushCmd = "adb   push " + jarFile + " " + targetPath;
-
-		
-		System.out.println("----jar包路径： " +  jarFile);
-		System.out.println("----" + pushCmd);
-		return execCmd(pushCmd);
-	}
 	
-	// 4 run test
-	public void runTest(String jarName, String className, String testFuncName) throws InterruptedException, IOException {
-	    String testCmd = "adb -s " + env.targetIp + ":" + port + " shell uiautomator runtest " + jarName + " --nohup -c " + className + "#" + testFuncName;
-		//String testCmd = "adb  shell uiautomator runtest " + jarName + " --nohup -c " + className + "#" + testFuncName;
-		System.out.println("----runTest:  " + testCmd);
-		execCmd(testCmd);
-	}
 }

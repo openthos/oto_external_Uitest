@@ -1,48 +1,57 @@
 package com.autoTestUI;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import android.os.RemoteException;
-import com.android.uiautomator.core.UiDevice;
-import com.android.uiautomator.core.UiObject;
 import com.android.uiautomator.core.UiObjectNotFoundException;
-import com.android.uiautomator.core.UiSelector;
 import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 
 public class toutiao extends UiAutomatorTestCase {
+
+	public static String apppackage = "com.ss.android.article.news";
+	public static String appactivity = "com.ss.android.article.news.activity.MainActivity";
+	public static String appName = "com.ss.android.article.news/com.ss.android.article.news.activity.MainActivity";
+	public static String port = "5555";
+
 	public void testtoutiao() throws UiObjectNotFoundException, RemoteException,
 			IOException, InterruptedException{
-		UiDevice device = getUiDevice();
-		// wake up screen
-		device.wakeUp();
-		assertTrue("screen on :can't wakeup", device.isScreenOn());
-		otoDisplayRun.port = "5555";
-		otoDisplayRun.apppackage = "com.ss.android.article.news";
-		otoDisplayRun.appactivity = "com.ss.android.article.news.activity.MainActivity";
-		
-		String appName = "com.ss.android.article.news/com.ss.android.article.news.activity.MainActivity";
-		window_lib.windowtest(device, appName);
-		
-		otoDisplayRun.execCmd("am start -n " + appName);
-		
-		boolean dumpFirstStart = new UiObject(new UiSelector().text("是否创建桌面快捷方式")).exists();
-		
-		if (dumpFirstStart == true) {
-			UiObject sureButton = new UiObject(new UiSelector().text("确定"));
-			
-			sureButton.click();
-		}
-		
+		otoDisplayRun otoTest;
+		otoTest = new otoDisplayRun(getUiDevice());
+		otoTest.mydevice.wakeUp();
+		otoTest.mydevice.pressEnter();
+		otoTest.mydevice.pressKeyCode(111);
+		assertTrue("screen on :can't wakeup", otoTest.mydevice.isScreenOn());
+		//启动时间
+		Date starttime;
+		Date endtime;
+		long launchTime;
+		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+
+		starttime = new Date();
+		System.out.println("----------Start time： " +  format.format(starttime));
+		System.out.println("starttime:" +  System.currentTimeMillis());
+		otoDisplayRun.execCmdNoSave("am start -n " + appName);
+
+		endtime = new Date();
+		System.out.println("----------结束时间： " +  format.format(endtime));
+		System.out.println("endtime:" +  System.currentTimeMillis());
+
+		launchTime = endtime.getTime() - starttime.getTime();
+		System.out.println("----------APP launch 时间： " + launchTime +"ms");
+		sleep(7000);
+
+		otoTest.ClickById("android:id/mwMaximizeBtn");
+		sleep(1000);
+		otoTest.MoveToTop();
+		otoTest.ClickById("android:id/mwMaximizeBtn");
+		otoTest.ClickById("android:id/mwCloseBtn");
+
+		otoDisplayRun.execCmdNoSave("am start -n " + appName);
+		window_lib.windowtest(otoTest.mydevice,appName );
+		otoTest.ClickById("android:id/mwMinimizeBtn");
 		// 强制关闭程序
 		otoDisplayRun.execCmdNoSave("am force-stop " + appName.substring(0, appName.indexOf("/")));
-		
-		// start testing itself
-		/*
-		 * try { Runtime.getRuntime().exec( " am start -n " + appName);
-		 * 
-		 * } catch (IOException e) { // TODO auto-generated catch block
-		 * e.printStackTrace(); } sleep(500);
-		 */
-	}
 
-	
+	}
 }

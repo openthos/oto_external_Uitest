@@ -1,35 +1,55 @@
 package com.autoTestUI;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import android.os.RemoteException;
-
-import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.core.UiObjectNotFoundException;
 import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 
 public class note extends UiAutomatorTestCase {
+
+	public static String apppackage = "com.example.android.notepad";
+	public static String appactivity = "com.example.android.notepad.NotesList";
+	public static String appName = "com.example.android.notepad/com.example.android.notepad.NotesList";
+	public static String port = "5555";
+
 	public void testnote() throws UiObjectNotFoundException, RemoteException,
 			IOException, InterruptedException {
-		UiDevice device = getUiDevice();
-		// wake up screen
-		device.wakeUp();
-		assertTrue("screen on :can't wakeup", device.isScreenOn());
+		otoDisplayRun otoTest;
+		otoTest = new otoDisplayRun(getUiDevice());
+		otoTest.mydevice.wakeUp();
+		otoTest.mydevice.pressEnter();
+		otoTest.mydevice.pressKeyCode(111);
+		assertTrue("screen on :can't wakeup", otoTest.mydevice.isScreenOn());
+		//启动时间
+		Date starttime;
+		Date endtime;
+		long launchTime;
+		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
 
-		otoDisplayRun.port = "5555";
-		otoDisplayRun.apppackage = "com.example.android.notepad";
-		otoDisplayRun.appactivity = "com.example.android.notepad.NotesList";
-		
-		String appName = "com.example.android.notepad/com.example.android.notepad.NotesList";
+		starttime = new Date();
+		System.out.println("----------Start time： " +  format.format(starttime));
+		System.out.println("starttime:" +  System.currentTimeMillis());
+		otoDisplayRun.execCmdNoSave("am start -n " + appName);
 
-		window_lib.windowtest(device, appName);
-		// start testing itself
-		/*
-		 * try { Runtime.getRuntime().exec( " am start -n " + appName);
-		 * 
-		 * } catch (IOException e) { // TODO auto-generated catch block
-		 * e.printStackTrace(); } sleep(500);
-		 */
+		endtime = new Date();
+		System.out.println("----------结束时间： " +  format.format(endtime));
+		System.out.println("endtime:" +  System.currentTimeMillis());
+
+		launchTime = endtime.getTime() - starttime.getTime();
+		System.out.println("----------APP launch 时间： " + launchTime +"ms");
+		sleep(5000);
+
+		window_lib.windowtest(otoTest.mydevice,appName );
+
+		otoDisplayRun.execCmdNoSave("am start -n " + appName);
+		otoTest.ClickById("android:id/mwMaximizeBtn");
+		sleep(1000);
+		otoTest.MoveToTop();
+		otoTest.ClickById("android:id/mwMaximizeBtn");
+		otoTest.ClickById("android:id/mwMinimizeBtn");
+		// 强制关闭程序
+		otoDisplayRun.execCmdNoSave("am force-stop " + appName.substring(0, appName.indexOf("/")));
 	}
-
-	
 }
