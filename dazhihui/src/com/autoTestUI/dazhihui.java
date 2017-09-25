@@ -10,8 +10,8 @@ import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 public class dazhihui extends UiAutomatorTestCase {
 
 	public static String apppackage = "com.android.dazhihui";
-	public static String appactivity = "com.android.dazhihui.ui.screen.stock.MainScreen";
-	public static String appName = "com.android.dazhihui/com.android.dazhihui.ui.screen.stock.MainScreen";
+	public static String appactivity = "com.android.dazhihui.dzh.dzh";
+	public static String appName = "com.android.dazhihui/com.android.dazhihui.dzh.dzh";
 	public static String port = "5555";
 
 	public void testdazhihui() throws UiObjectNotFoundException, RemoteException,
@@ -39,11 +39,8 @@ public class dazhihui extends UiAutomatorTestCase {
 
 		launchTime = endtime.getTime() - starttime.getTime();
 		System.out.println("----------APP launch 时间： " + launchTime +"ms");
-		sleep(3000);
-		otoTest.ClickById("android:id/mwMaximizeBtn");
-		sleep(1000);
-		otoTest.MoveToTop();
-		otoTest.ClickById("android:id/mwMaximizeBtn");
+		sleep(5000);
+		otoTest.ClickById("com.android.dazhihui:id/update_cancel_menu");
 		sleep(1000);
 		window_lib.windowtest(otoTest.mydevice,appName );
 
