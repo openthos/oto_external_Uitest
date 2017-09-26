@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import android.os.RemoteException;
+import com.android.uiautomator.core.UiObject;
 import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.android.uiautomator.core.UiSelector;
 import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 
 public class dazhihui extends UiAutomatorTestCase {
@@ -40,8 +42,10 @@ public class dazhihui extends UiAutomatorTestCase {
 		launchTime = endtime.getTime() - starttime.getTime();
 		System.out.println("----------APP launch 时间： " + launchTime +"ms");
 		sleep(5000);
-		otoTest.ClickById("com.android.dazhihui:id/update_cancel_menu");
-		sleep(1000);
+		if(new UiObject(new UiSelector().resourceId("com.android.dazhihui:id/update_cancel_menu")).exists()){
+			otoTest.ClickById("com.android.dazhihui:id/update_cancel_menu");
+			sleep(1000);
+		}
 		window_lib.windowtest(otoTest.mydevice,appName );
 
 		otoDisplayRun.execCmdNoSave("am start -n " + appName);
