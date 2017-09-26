@@ -11,8 +11,8 @@ import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 public class tuniu extends UiAutomatorTestCase {
 
 	public static String apppackage = "com.tuniu.HD.ui";
-	public static String appactivity = "com.tuniu.HD.ui.activity.main.MainActivity";
-	public static String appName = "com.tuniu.HD.ui/com.tuniu.HD.ui.activity.main.MainActivity";
+	public static String appactivity = "com.tuniu.HD.ui.activity.launch.LaunchActivity";
+	public static String appName = "com.tuniu.HD.ui/com.tuniu.HD.ui.activity.launch.LaunchActivity";
 	public static String port = "5555";
 
 	public void testtuniu() throws UiObjectNotFoundException, RemoteException,
@@ -44,18 +44,13 @@ public class tuniu extends UiAutomatorTestCase {
 
 		otoTest.MoveToTop();
 		otoTest.ClickById("android:id/mwMaximizeBtn");
-		sleep(1000);
-		otoTest.ClickById("android:id/mwMaximizeBtn");
-		sleep(1000);
-		otoTest.MoveToTop();
-		otoTest.ClickById("android:id/mwCloseBtn");
-
-		otoDisplayRun.execCmdNoSave("am start -n " + appName);
-		otoTest.MoveToTop();
-		otoTest.ClickById("android:id/mwMaximizeBtn");
 		window_lib.windowtest(otoTest.mydevice,appName );
+		
 		otoDisplayRun.execCmdNoSave("am start -n " + appName);
+		sleep(4000);
 		otoTest.MoveToTop();
+		otoTest.ClickById("android:id/mwMaximizeBtn");
+		sleep(1000);
 		otoTest.ClickById("android:id/mwMinimizeBtn");
 		// 强制关闭程序
 		otoDisplayRun.execCmdNoSave("am force-stop " + appName.substring(0, appName.indexOf("/")));
