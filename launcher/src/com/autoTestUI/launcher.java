@@ -61,6 +61,8 @@ public class launcher extends UiAutomatorTestCase {
 		UiObject newxls = new UiObject(new UiSelector().text("新建文件1.xls"));
 		assertTrue("新建Excel表格文档",newxls.exists());
 		
+		lch.click();
+		sleep(500);
 		lch.longClick();
 		otoTest.ClickByText("新建文件");
 		otoTest.ClickById("com.android.launcher3:id/cancel");
@@ -167,12 +169,14 @@ public class launcher extends UiAutomatorTestCase {
 		UiObject Uzip =new UiObject(new UiSelector().text("usercomp.zip"));
 		assertTrue("压缩zip",Uzip.exists());
 		//压缩新建文件夹为.7z,并设置密码123
+		lch.click();
+		sleep(500);
 		newfolder.longClick();
 		otoTest.ClickByText("压缩");
 		otoTest.ClickById("com.openthos.compress:id/bt_co_destination");
 		sleep(500);
 		UiObject bf = new UiObject(new UiSelector().resourceId("com.openthos.compress:id/lv_file_list")).getChild(new UiSelector().className("android.widget.RelativeLayout").instance(9));
-		bf.dragTo(0,0,40);
+		bf.dragTo(0,100,40);
 		otoTest.ClickByText("Desktop");
 		sleep(500);
 		otoTest.ClickByText("新建文件夹1");
