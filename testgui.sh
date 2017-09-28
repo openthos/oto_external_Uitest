@@ -3,7 +3,7 @@
 android_ip=$1
 adb connect $android_ip
 localpwd=`pwd`
-date=`date +%Y%m%d`
+date=`date +%Y%m%d%H%M`
 touch $date".result"
 for testcase in `ls -d */|sed 's|[/]||g'`
 ##testlist="cntvhd clock "
