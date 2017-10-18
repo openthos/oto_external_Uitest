@@ -3,10 +3,10 @@ package com.autoTestUI;
 import java.io.IOException;
 import android.os.RemoteException;
 import android.view.KeyEvent;
-
 import com.android.uiautomator.core.Configurator;
 import com.android.uiautomator.core.UiObject;
 import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.android.uiautomator.core.UiScrollable;
 import com.android.uiautomator.core.UiSelector;
 import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 
@@ -175,9 +175,9 @@ public class launcher extends UiAutomatorTestCase {
 		otoTest.ClickByText("压缩");
 		otoTest.ClickById("com.openthos.compress:id/bt_co_destination");
 		sleep(500);
-		UiObject bf = new UiObject(new UiSelector().resourceId("com.openthos.compress:id/lv_file_list")).getChild(new UiSelector().className("android.widget.RelativeLayout").instance(9));
-		bf.dragTo(0,100,40);
-		otoTest.ClickByText("Desktop");
+		UiScrollable deslist = new UiScrollable(new UiSelector().resourceId("com.openthos.compress:id/lv_file_list"));
+		UiObject comfile = deslist.getChildByText(new UiSelector().className("android.widget.TextView"), "Desktop",true);
+		comfile.click();
 		sleep(500);
 		otoTest.ClickByText("新建文件夹1");
 		sleep(500);
