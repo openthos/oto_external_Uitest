@@ -45,7 +45,7 @@ public class onenote extends UiAutomatorTestCase {
 		sleep(500);
 		otoTest.MoveToTop();
 		otoTest.ClickById("android:id/mwMaximizeBtn");
-		otoTest.ClickById("");
+		otoTest.ClickById("android:id/mwCloseBtn");
 		
 		otoDisplayRun.execCmdNoSave("am start -n " + appName);
 		sleep(3000);
