@@ -39,7 +39,7 @@ public class onenote extends UiAutomatorTestCase {
 
 		launchTime = endtime.getTime() - starttime.getTime();
 		System.out.println("----------APP launch 时间： " + launchTime +"ms");
-		sleep(5000);
+		sleep(9000);
 
 		otoTest.ClickById("android:id/mwMaximizeBtn");
 		sleep(500);
