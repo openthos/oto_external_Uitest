@@ -182,5 +182,17 @@ public class system_ui extends UiAutomatorTestCase {
 		otoTest.mydevice.openNotification();
 		otoTest.ClickById("com.android.systemui:id/status_bar_home");
 		assertEquals("返回桌面","com.android.launcher3",otoTest.mydevice.getCurrentPackageName());
+		sleep(1000);
+//		//键盘映射测试(与bug 873相同）通知中心打开后，点击键盘映射会关闭通知中心，此时无法识别任务栏
+//		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
+//		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
+//		otoTest.mydevice.openNotification();
+//		otoTest.ClickById("com.android.systemui:id/status_bar_keyboard");
+//		
+//		otoTest.ClickById("com.openthos.keyboardmap:id/add_button");
+//		sleep(500);
+//		otoTest.ClickById("com.openthos.keyboardmap:id/reset");
+//		sleep(500);
+//		otoTest.ClickById("com.openthos.keyboardmap:id/exit");
 	}
 }
