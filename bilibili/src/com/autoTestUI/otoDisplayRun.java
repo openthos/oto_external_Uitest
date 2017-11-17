@@ -65,6 +65,7 @@ public class otoDisplayRun extends UiAutomatorTestCase{
 		}
 		try {
 			myobject.click();
+			sleep(500);
 		} catch (UiObjectNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
