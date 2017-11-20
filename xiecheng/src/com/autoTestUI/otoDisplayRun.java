@@ -74,18 +74,31 @@ public class otoDisplayRun extends UiAutomatorTestCase{
 
 	private void SolveProblems(){
 		sleep(2000);
-		boolean dumpFirstStart = new UiObject(
-				new UiSelector().resourceId("ctrip.android.view:id/upgrade_confirm")).exists();
-		if (dumpFirstStart == true) {
-			UiObject skipButton = new UiObject(
-					new UiSelector().resourceId("ctrip.android.view:id/upgrade_cancel"));
-			try {
-				skipButton.click();
-			} catch (UiObjectNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+                System.out.println("start solveProblems");
+                boolean dumpFirstStart = new UiObject(
+                                new UiSelector().text("立即升级")).exists();
+                boolean adExist=new UiObject(
+                                new UiSelector().resourceId("ctrip.android.publicproduct:id/dis_ad_close")).exists();
+                if (dumpFirstStart == true) {
+                        System.out.println("upgrade exists");
+                        UiObject skipButton = new UiObject(
+                                        new UiSelector().resourceId("ctrip.android.publicproduct:id/upgrade_cancel"));
+                        try {
+                                skipButton.click();
+                        } catch (UiObjectNotFoundException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                        }
+                }
+                if (adExist == true) {
+                        System.out.println("ad exists");
+                        try {
+                                new UiObject( new UiSelector().resourceId("ctrip.android.publicproduct:id/dis_ad_close")).click();
+                        }  catch (UiObjectNotFoundException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                        }
+                }
 	}
 	
 	public void TakeScreen(String descript){
