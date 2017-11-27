@@ -26,7 +26,7 @@
   - ```device.drag(myAppSide.left, myAppSide.top, myAppSide.left + 100,myAppSide.top, 2);```
 
 ## 通过脚本直接运行
-https://github.com/openthos/oto_external_Uitest/blob/master/GUI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B.md
+https://github.com/openthos/oto_external_Uitest/blob/master/getresult.sh
 
 ## 基于LKP框架的测试用例(以微信为例)
   - 源码位置：https://github.com/openthos/oto_external_lkp/tree/master/testcase/wechat
