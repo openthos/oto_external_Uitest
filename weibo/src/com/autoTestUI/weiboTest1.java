@@ -9,7 +9,7 @@ import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 
 public class weiboTest1 extends UiAutomatorTestCase{
 	//public static String apppackage = "com.skype.raider";
-	public static String appName = "com.sina.weibo/.SplashActivity";
+	public static String appName = "com.sina.weibo/com.sina.weibo.SplashActivity";
 	public static String port = "5555";
 
 	public void testweibo() throws UiObjectNotFoundException, RemoteException,
