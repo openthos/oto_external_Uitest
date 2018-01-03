@@ -17,8 +17,6 @@ public class launcher extends UiAutomatorTestCase {
 		otoDisplayRun otoTest;
 		otoTest = new otoDisplayRun(getUiDevice());
 		otoTest.mydevice.wakeUp();
-		otoTest.mydevice.pressEnter();
-		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ESCAPE);
 		assertTrue("screen on :can't wakeup", otoTest.mydevice.isScreenOn());
 	
 		UiObject lch = new UiObject(new UiSelector().resourceId("com.android.launcher3:id/launcher"));
@@ -123,6 +121,7 @@ public class launcher extends UiAutomatorTestCase {
 		//双击打开
 		lch.click();
 		UiObject mc = new UiObject(new UiSelector().text("我的电脑"));
+		mc.click();
 		Configurator.getInstance().setActionAcknowledgmentTimeout(0);
 		mc.click();	
 		mc.click();
@@ -319,7 +318,6 @@ public class launcher extends UiAutomatorTestCase {
 		sleep(1000);
 		assertEquals("打开回收站","com.openthos.filemanager",otoTest.mydevice.getCurrentPackageName());
 		otoTest.ClickById("android:id/mwCloseBtn");
-		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ESCAPE);
 		rb.longClick();
 		otoTest.ClickByText("清空回收站");
 		assertTrue("清空回收站",new UiObject(new UiSelector().text("确认清空回收站?")).exists());
