@@ -14,12 +14,11 @@ public class cntvhdTest extends UiAutomatorTestCase {
 	public static String appName = "cn.cntvhd/.StartActivity";
 	public static String port = "5555";
 
-	public void testtaijievideo() throws UiObjectNotFoundException, RemoteException,
+	public void testcntvHDtest() throws UiObjectNotFoundException, RemoteException,
 			IOException, InterruptedException {
 		otoDisplayRun otoTest;
 		otoTest = new otoDisplayRun(getUiDevice());
 		otoTest.mydevice.wakeUp();
-		otoTest.mydevice.pressEnter();
 		assertTrue("screen on :can't wakeup", otoTest.mydevice.isScreenOn());
 		//启动时间
 		Date starttime;
