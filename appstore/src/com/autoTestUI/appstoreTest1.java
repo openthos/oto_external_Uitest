@@ -190,7 +190,7 @@ public class appstoreTest1 extends UiAutomatorTestCase {
         assertTrue(new UiObject(new UiSelector().text("最新推荐")).exists());
     }
     
-	//测试用例5：测试右上角搜索应用，测试打开应用，卸载测试相关应用并关闭应用商店
+	//测试用例6：测试右上角搜索应用，测试打开应用，卸载测试相关应用并关闭应用商店
     public void testDemo6() throws UiObjectNotFoundException,IOException,InterruptedException {
         UiDevice uiDevice = getUiDevice();
         //测试右上角搜索应用
