@@ -20,8 +20,6 @@ public class system_ui extends UiAutomatorTestCase {
 		otoDisplayRun otoTest;
 		otoTest = new otoDisplayRun(getUiDevice());
 		otoTest.mydevice.wakeUp();
-		otoTest.mydevice.pressEnter();
-		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ESCAPE);
 		assertTrue("screen on :can't wakeup", otoTest.mydevice.isScreenOn());
 
 		Date starttime;
