@@ -47,11 +47,15 @@ public class system_ui extends UiAutomatorTestCase {
 		sleep(1000);
 		
 		//音量调节
+		System.out.println("音量调节");
 		otoTest.ClickById("com.android.systemui:id/status_bar_sound");
 		otoTest.ClickById("com.android.systemui:id/media_volume_btn");
 		otoTest.ClickById("com.android.systemui:id/media_volume_btn");
 		sleep(1000);
+		//点击清除所有,（bug2145）在通知中心有通知消息的情况下，点击通知管理，通知中心不会关闭
+		otoTest.ClickById("com.android.systemui:id/clearAll");
 		//点击通知管理
+		System.out.println("通知管理");
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
 		otoTest.mydevice.openNotification();
@@ -61,6 +65,7 @@ public class system_ui extends UiAutomatorTestCase {
 		assertEquals("notificationManager open success","com.android.settings",otoTest.mydevice.getCurrentPackageName());
 		otoTest.ClickById("android:id/mwCloseBtn");
 		//点击截屏
+		System.out.println("截屏");
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
 		otoTest.mydevice.openNotification();
@@ -68,8 +73,10 @@ public class system_ui extends UiAutomatorTestCase {
 		sleep(6000);
 		assertTrue("截屏成功", new UiObject(new UiSelector().resourceId("android:id/title")).getText().equals("已抓取屏幕截图。"));
 		//点击清除所有
+		System.out.println("清除所有");
 		otoTest.ClickById("com.android.systemui:id/clearAll");
 		//点击打印任务管理器
+		System.out.println("打印任务管理器");
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
 		otoTest.mydevice.openNotification();
@@ -79,6 +86,7 @@ public class system_ui extends UiAutomatorTestCase {
 		otoTest.ClickById("android:id/mwCloseBtn");
 		//隔离模式导致网络断开，暂时不测；投影按钮暂无功能
 		//点击设置
+		System.out.println("设置");
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
 		otoTest.mydevice.openNotification();
@@ -88,6 +96,7 @@ public class system_ui extends UiAutomatorTestCase {
 		//点击Startmenu时会关闭通知中心，然后焦点消失，无法点击
 		//otoTest.ClickById("com.android.systemui:id/status_bar_startup_menu");
 		//打开文件管理器
+		System.out.println("打开文件管理器");
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
 		otoTest.mydevice.openNotification();
@@ -106,6 +115,7 @@ public class system_ui extends UiAutomatorTestCase {
 //		otoTest.MoveToTop();
 //		otoTest.ClickById("android:id/mwCloseBtn");
 		//输入法设置
+		System.out.println("输入法设置");
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
 		otoTest.mydevice.openNotification();
@@ -136,6 +146,7 @@ public class system_ui extends UiAutomatorTestCase {
 		sleep(1000);
 		otoTest.ClickByText("谷歌拼音输入法");
 		//电池
+		System.out.println("电池");
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
 		otoTest.mydevice.openNotification();
@@ -145,6 +156,7 @@ public class system_ui extends UiAutomatorTestCase {
 		assertEquals("打开节能设置","com.android.settings",otoTest.mydevice.getCurrentPackageName());
 		otoTest.ClickById("android:id/mwCloseBtn");
 		//网络设置
+		System.out.println("网络设置");
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
 		otoTest.mydevice.openNotification();
@@ -157,6 +169,7 @@ public class system_ui extends UiAutomatorTestCase {
 			wifibutton.click();
 			assertTrue("wifi已关闭",wifibutton.getText().equals("关闭"));
 			wifibutton.click();
+			sleep(1000);
 			assertTrue("wifi已开启",wifibutton.getText().equals("开启"));
 			sleep(1000);
 			otoTest.ClickById("com.android.systemui:id/wifi_content_name");
@@ -173,7 +186,7 @@ public class system_ui extends UiAutomatorTestCase {
 		//assertEquals("打开以太网设置","com.android.settings",otoTest.mydevice.getCurrentPackageName());
 		//otoTest.ClickById("android:id/mwCloseBtn");
 		//日历
-		//此处有[bug 873] 通知中心切换到日期需要点击两次，其他（声音\电池等）均可正常切换
+		System.out.println("日历");
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
 		otoTest.mydevice.openNotification();
@@ -188,6 +201,7 @@ public class system_ui extends UiAutomatorTestCase {
 		assertEquals("设置日期与时间","com.android.settings",otoTest.mydevice.getCurrentPackageName());
 		otoTest.ClickById("android:id/mwCloseBtn");
 		//返回桌面按钮
+		System.out.println("返回桌面按钮");
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
 		otoTest.mydevice.openNotification();
@@ -195,6 +209,7 @@ public class system_ui extends UiAutomatorTestCase {
 		assertEquals("返回桌面","com.android.launcher3",otoTest.mydevice.getCurrentPackageName());
 		sleep(1000);
 		//键盘映射测试(与bug 873相同）通知中心打开后，点击键盘映射会关闭通知中心，此时无法识别任务栏
+		System.out.println("键盘映射");
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_TAB,2);
 		otoTest.mydevice.pressKeyCode(KeyEvent.KEYCODE_ENTER);
 		otoTest.mydevice.openNotification();
