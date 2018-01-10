@@ -88,3 +88,9 @@ id: 1 or "android-22"
    android list target
    ```
    - 显示版本为22
+
+## 安装ANT
+```
+sudo apt-get install ant
+```
+
