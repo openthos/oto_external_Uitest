@@ -12,7 +12,6 @@ do
     device=`adb devices | grep "\<device\>" | awk '{print $1}'`
 if [ "$device" != "" ];then
     break
-    exit 0
 fi
 done
 
