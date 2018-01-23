@@ -3,9 +3,11 @@
 localpwd=`pwd`
 date=`date +%Y%m%d%H%M`
 touch $date".result"
-##for testcase in `ls -d */|sed 's|[/]||g'`
-testlist="com.futuremark.dmandroid.application"
-for testcase in $testlist
+## 默认运行全部测试用例
+for testcase in `ls -d */|sed 's|[/]||g'`
+##增删testlist中的用例名（即目录名称）选择部分测试用例
+##testlist="com.futuremark.dmandroid.application"
+##for testcase in $testlist
 do
     cd $localpwd
     cd $testcase
@@ -14,7 +16,7 @@ do
     ant build
     adb push bin/$testcase".jar" /data/local/tmp
     adb install *.apk
-    ./auto_interact.sh `cat packagename` 2>&1 | tee tmpresult
+    ./auto_interact.sh 2>&1 | tee tmpresult
     r=`cat tmpresult | grep -e "OK"`
     if [$r == ""]; then
       echo $testcase:0 >> ../$date".result"
