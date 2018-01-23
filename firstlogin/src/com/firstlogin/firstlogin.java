@@ -16,7 +16,8 @@ public class firstlogin extends UiAutomatorTestCase {
 		// wake up screen
 		otoTest.mydevice.wakeUp();
 		assertTrue("screen on :can't wakeup", otoTest.mydevice.isScreenOn());
-	
+		
+		assertEquals("首次配置界面","com.otosoft.setupwizard",otoTest.mydevice.getCurrentPackageName());	
 		// 判断是否进入首次配置界面，如果是，选择语言为英文
 		UiObject firstym= new UiObject (new UiSelector().resourceId("com.otosoft.setupwizard:id/title"));
 	
