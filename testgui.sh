@@ -3,6 +3,8 @@
 localpwd=`pwd`
 date=`date +%Y%m%d%H%M`
 touch $date".result"
+##跳过首次配置
+./firstlogin/firstlogin.sh
 ## 默认运行全部测试用例
 for testcase in `ls -d */|sed 's|[/]||g'`
 ##增删testlist中的用例名（即目录名称）选择部分测试用例
