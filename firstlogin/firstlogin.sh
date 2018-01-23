@@ -1,11 +1,11 @@
 #!/bin/bash
 
 localpwd=`pwd`
-name=firstlogin
+firstlogin
 
-android create uitest-project -n $name -t 1 -p $localpwd
+android create uitest-project -n firstlogin -t 1 -p .
 ant build
-adb push $localpwd/bin/$name.jar /data/local/tmp
-adb shell uiautomator runtest $name.jar -c com.$name.$name
+adb push bin/firstlogin.jar /data/local/tmp
+adb shell uiautomator runtest firstlogin.jar -c com.firstlogin.firstlogin
 rm -rf bin
 rm build.xml local.properties  project.properties
