@@ -1,8 +1,5 @@
 #!/bin/bash
 
-localpwd=`pwd`
-firstlogin
-
 android create uitest-project -n firstlogin -t 1 -p .
 ant build
 adb push bin/firstlogin.jar /data/local/tmp

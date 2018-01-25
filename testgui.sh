@@ -5,11 +5,7 @@ date=`date +%Y%m%d%H%M`
 touch $date".result"
 ##跳过首次配置
 cd firstlogin
-android create uitest-project -n firstlogin -t 1 -p .
-ant build
-adb push bin/firstlogin.jar /data/local/tmp
-adb shell uiautomator runtest firstlogin.jar -c com.firstlogin.firstlogin
-rm -rf bin
+./firstlogin.sh
 cd $localpwd
 
 ## 默认运行全部测试用例
