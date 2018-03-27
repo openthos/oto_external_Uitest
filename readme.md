@@ -75,7 +75,7 @@ id: 1 or "android-22"
 ## 安装adb
 ## 拷贝sdk
   ```
-  scp lh@192.168.0.180:/home/lh/zlp/sdk.tar.gz .
+  scp lh@192.168.0.180:/home/lh/jiangqin/sdk/ .
   ```
 ## 配置环境变量
    ```
